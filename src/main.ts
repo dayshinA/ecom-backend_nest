@@ -1,7 +1,6 @@
 // src/main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DatabaseConfig } from './config/database.config';
 import * as session from 'express-session';
 import * as cron from 'node-cron';
 import * as cors from 'cors';
@@ -25,11 +24,6 @@ async function bootstrap() {
       },
     }),
   );
-
-  // Database connection and sync
-  const databaseConfig = app.get(DatabaseConfig);
-  await databaseConfig.connect();
-  await databaseConfig.sync();
 
   // Schedule cron jobs
   cron.schedule('0 1 * * *', () => {
