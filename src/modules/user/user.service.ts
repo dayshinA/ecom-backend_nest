@@ -15,6 +15,7 @@ import {
   LoginInput,
   UpdateUserProfileInput,
   ChangePasswordInput,
+  SignUpResponse,
 } from '../../graphql/types/user.types';
 
 @Injectable()
@@ -26,23 +27,33 @@ export class UserService {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async createUser(userData: SignUpInput, profileImage: FileUpload) {
-    const { password, ...otherData } = userData;
+  async createUser(userData: SignUpInput): Promise<SignUpResponse> {
+    const { password, profile_image, ...otherData } = userData;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
-      const { createReadStream, filename } = profileImage;
-      const stream = createReadStream();
+      let profileImageUrl: string | null = null;
 
-      // Upload the image to Cloudinary directly from the stream
-      const uploadResult = await this.cloudinaryService.uploadProfileImage(
-        stream,
-        filename,
-      );
+      if (profile_image) {
+        // Await the FileUpload promise
+        const file: FileUpload = await profile_image;
+
+        // Access file properties
+        const { createReadStream, filename } = file;
+        const stream = createReadStream();
+
+        // Upload the image (e.g., to Cloudinary)
+        const uploadResult = await this.cloudinaryService.uploadProfileImage(
+          stream,
+          filename,
+        );
+
+        profileImageUrl = uploadResult.secure_url;
+      }
 
       const newUser = await this.userModel.create({
         ...otherData,
         password: hashedPassword,
-        profile_image: uploadResult.secure_url,
+        profile_image: profileImageUrl,
       });
 
       const role = await Role.findByPk(newUser.role_id);

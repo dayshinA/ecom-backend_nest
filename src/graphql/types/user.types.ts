@@ -1,5 +1,6 @@
 // src/graphql/types/user.types.ts
 import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @ObjectType()
 export class UserType {
@@ -50,6 +51,9 @@ export class SignUpInput {
 
   @Field()
   contact: string;
+
+  @Field(() => GraphQLUpload, { nullable: true })
+  profile_image?: Promise<FileUpload>;
 
   @Field()
   role_id: number;

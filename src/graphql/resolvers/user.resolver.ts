@@ -39,12 +39,8 @@ export class UserResolver {
   }
 
   @Mutation(() => SignUpResponse)
-  async signUp(
-    @Args('input') input: SignUpInput,
-    @Args({ name: 'profileImage', type: () => GraphQLUpload })
-    profileImage: FileUpload,
-  ) {
-    return this.userService.createUser(input, profileImage);
+  async signUp(@Args('input') input: SignUpInput): Promise<SignUpResponse> {
+    return this.userService.createUser(input);
   }
 
   @Mutation(() => LoginResponse)

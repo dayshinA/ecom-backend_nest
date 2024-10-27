@@ -57,7 +57,7 @@ type Query {
 }
 
 type Mutation {
-  signUp(input: SignUpInput!, profileImage: Upload!): SignUpResponse!
+  signUp(input: SignUpInput!): SignUpResponse!
   login(input: LoginInput!): LoginResponse!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfileResponse!
   changePassword(input: ChangePasswordInput!): ChangePasswordResponse!
@@ -69,6 +69,7 @@ input SignUpInput {
   user_name: String!
   password: String!
   contact: String!
+  profile_image: Upload
   role_id: Float!
 }
 
