@@ -8,14 +8,14 @@ import {
   DataType,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { Order } from './order.model';
-import { Coupon } from './coupon.model';
+import Order from './order.model';
+import Coupon from './coupon.model';
 
 @Table({
   tableName: 'order_coupons',
   timestamps: false,
 })
-export class OrderCoupon extends Model<OrderCoupon> {
+export default class OrderCoupon extends Model<OrderCoupon> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

@@ -11,14 +11,14 @@ import {
   HasMany,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { User } from './user.model';
-import { Order } from './order.model';
+import User from './user.model';
+import Order from './order.model';
 
 @Table({
   tableName: 'shipping_addresses',
   timestamps: false,
 })
-export class ShippingAddress extends Model<ShippingAddress> {
+export default class ShippingAddress extends Model<ShippingAddress> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

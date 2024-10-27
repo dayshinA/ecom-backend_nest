@@ -8,13 +8,13 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { User } from './user.model';
+import User from './user.model';
 
 @Table({
   tableName: 'seller_profiles',
   timestamps: false,
 })
-export class SellerProfile extends Model<SellerProfile> {
+export default class SellerProfile extends Model<SellerProfile> {
   @PrimaryKey
   @ForeignKey(() => User)
   @Column(DataType.BIGINT)

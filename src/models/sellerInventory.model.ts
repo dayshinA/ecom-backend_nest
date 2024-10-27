@@ -10,15 +10,15 @@ import {
   BelongsTo,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { SellerProfile } from './seller.model';
-import { Product } from './product.model';
-import { ProductVariation } from './productVariation.model';
+import SellerProfile from './seller.model';
+import Product from './product.model';
+import ProductVariation from './productVariation.model';
 
 @Table({
   tableName: 'seller_inventory',
   timestamps: false,
 })
-export class SellerInventory extends Model<SellerInventory> {
+export default class SellerInventory extends Model<SellerInventory> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

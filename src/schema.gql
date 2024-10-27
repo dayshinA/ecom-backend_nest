@@ -14,6 +14,73 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type UserType {
+  user_id: ID
+  name: String
+  email: String
+  user_name: String
+  contact: String
+  profile_image: String
+  role_name: String
+  is_seller: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type SignUpResponse {
+  success: Boolean!
+  message: String!
+  user: UserType
+}
+
+type LoginResponse {
+  success: Boolean!
+  message: String!
+  token: String
+  user: UserType
+}
+
+type UpdateUserProfileResponse {
+  success: Boolean!
+  message: String!
+  user: UserType
+}
+
+type ChangePasswordResponse {
+  success: Boolean!
+  message: String!
+}
+
 type Query {
   roles: [RoleType!]!
+  currentUser: UserType
+}
+
+type Mutation {
+  signUp(input: SignUpInput!): SignUpResponse!
+  login(input: LoginInput!): LoginResponse!
+  updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfileResponse!
+  changePassword(oldPassword: String!, newPassword: String!): ChangePasswordResponse!
+}
+
+input SignUpInput {
+  name: String!
+  email: String!
+  user_name: String!
+  password: String!
+  contact: String!
+  role_id: Float!
+}
+
+input LoginInput {
+  user_name: String!
+  password: String!
+}
+
+input UpdateUserProfileInput {
+  name: String
+  email: String
+  user_name: String
+  contact: String
+  profile_image: String
 }

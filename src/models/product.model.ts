@@ -11,17 +11,17 @@ import {
   HasMany,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { Category } from './category.model';
-import { Brand } from './brand.model';
-import { SellerProfile } from './seller.model';
-import { ProductVariation } from './productVariation.model';
-import { SellerInventory } from './sellerInventory.model';
+import Category from './category.model';
+import Brand from './brand.model';
+import SellerProfile from './seller.model';
+import ProductVariation from './productVariation.model';
+import SellerInventory from './sellerInventory.model';
 
 @Table({
   tableName: 'products',
   timestamps: false,
 })
-export class Product extends Model<Product> {
+export default class Product extends Model<Product> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

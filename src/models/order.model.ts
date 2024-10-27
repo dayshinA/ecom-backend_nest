@@ -10,19 +10,19 @@ import {
   HasMany,
   BelongsToMany,
 } from 'sequelize-typescript';
-import { User } from './user.model';
-import { ShippingAddress } from './shippingAddress.model';
-import { OrderStatus } from './orderStatus.model';
-import { OrderDetail } from './order_detail.model';
-import { Payment } from './payment.model';
-import { Coupon } from './coupon.model';
-import { OrderCoupon } from './orderCoupon.model';
+import User from './user.model';
+import ShippingAddress from './shippingAddress.model';
+import OrderStatus from './orderStatus.model';
+import OrderDetail from './order_detail.model';
+import Payment from './payment.model';
+import Coupon from './coupon.model';
+import OrderCoupon from './orderCoupon.model';
 
 @Table({
   tableName: 'orders',
   timestamps: false,
 })
-export class Order extends Model<Order> {
+export default class Order extends Model<Order> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

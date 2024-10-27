@@ -9,14 +9,14 @@ import {
   BeforeUpdate,
   BelongsToMany,
 } from 'sequelize-typescript';
-import { Order } from './order.model';
-import { OrderCoupon } from './orderCoupon.model';
+import Order from './order.model';
+import OrderCoupon from './orderCoupon.model';
 
 @Table({
   tableName: 'coupons',
   timestamps: false,
 })
-export class Coupon extends Model<Coupon> {
+export default class Coupon extends Model<Coupon> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

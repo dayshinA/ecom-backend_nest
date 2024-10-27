@@ -11,14 +11,14 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { CartItem } from './cartItem.model';
-import { User } from './user.model';
+import CartItem from './cartItem.model';
+import User from './user.model';
 
 @Table({
   tableName: 'carts',
   timestamps: false,
 })
-export class Cart extends Model<Cart> {
+export default class Cart extends Model<Cart> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

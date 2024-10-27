@@ -11,14 +11,14 @@ import {
   HasMany,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { Product } from './product.model';
-import { SellerInventory } from './sellerinventory.model';
+import Product from './product.model';
+import SellerInventory from './sellerinventory.model';
 
 @Table({
   tableName: 'product_variations',
   timestamps: false,
 })
-export class ProductVariation extends Model<ProductVariation> {
+export default class ProductVariation extends Model<ProductVariation> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

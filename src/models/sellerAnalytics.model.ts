@@ -10,13 +10,13 @@ import {
   BelongsTo,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { SellerProfile } from './seller.model';
+import SellerProfile from './seller.model';
 
 @Table({
   tableName: 'seller_analytics',
   timestamps: false,
 })
-export class SellerAnalytics extends Model<SellerAnalytics> {
+export default class SellerAnalytics extends Model<SellerAnalytics> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

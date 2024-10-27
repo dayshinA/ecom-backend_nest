@@ -1,5 +1,4 @@
 // src/models/role.model.ts
-
 import {
   Table,
   Column,
@@ -9,13 +8,13 @@ import {
   DataType,
   HasMany,
 } from 'sequelize-typescript';
-import { User } from './user.model';
+import User from './user.model';
 
 @Table({
   tableName: 'roles',
   timestamps: false,
 })
-export class Role extends Model<Role> {
+export default class Role extends Model<Role> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

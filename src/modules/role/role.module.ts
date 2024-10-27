@@ -1,11 +1,13 @@
 // src/modules/role/role.module.ts
 import { Module } from '@nestjs/common';
-import { RoleResolver } from '../../graphql/resolvers/role.resolver';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Role } from '../../models/role.model';
+import Role from '../../models/role.model';
+import { RoleService } from './role.service';
+import { RoleResolver } from '../../graphql/resolvers/role.resolver';
 
 @Module({
   imports: [SequelizeModule.forFeature([Role])],
-  providers: [RoleResolver],
+  providers: [RoleService, RoleResolver],
+  exports: [RoleService],
 })
 export class RoleModule {}

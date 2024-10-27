@@ -9,15 +9,15 @@ import {
   BeforeUpdate,
   BelongsTo,
 } from 'sequelize-typescript';
-import { Order } from './order.model';
-import { User } from './user.model';
-import { PaymentMethod } from './paymentMethod.model';
+import Order from './order.model';
+import User from './user.model';
+import PaymentMethod from './paymentMethod.model';
 
 @Table({
   tableName: 'payments',
   timestamps: false,
 })
-export class Payment extends Model<Payment> {
+export default class Payment extends Model<Payment> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

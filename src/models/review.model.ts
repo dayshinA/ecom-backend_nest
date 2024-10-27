@@ -10,14 +10,14 @@ import {
   BelongsTo,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { Product } from './product.model';
-import { User } from './user.model';
+import Product from './product.model';
+import User from './user.model';
 
 @Table({
   tableName: 'reviews',
   timestamps: false,
 })
-export class Review extends Model<Review> {
+export default class Review extends Model<Review> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

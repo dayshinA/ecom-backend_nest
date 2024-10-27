@@ -9,16 +9,16 @@ import {
   BeforeUpdate,
   BelongsTo,
 } from 'sequelize-typescript';
-import { Order } from './order.model';
-import { Product } from './product.model';
-import { ProductVariation } from './productVariation.model';
-import { SellerProfile } from './seller.model';
+import Order from './order.model';
+import Product from './product.model';
+import ProductVariation from './productVariation.model';
+import SellerProfile from './seller.model';
 
 @Table({
   tableName: 'order_details',
   timestamps: false,
 })
-export class OrderDetail extends Model<OrderDetail> {
+export default class OrderDetail extends Model<OrderDetail> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

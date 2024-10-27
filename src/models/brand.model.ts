@@ -9,13 +9,13 @@ import {
   HasMany,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { Product } from './product.model';
+import Product from './product.model';
 
 @Table({
   tableName: 'brands',
   timestamps: false,
 })
-export class Brand extends Model<Brand> {
+export default class Brand extends Model<Brand> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

@@ -9,13 +9,13 @@ import {
   BeforeUpdate,
   HasMany,
 } from 'sequelize-typescript';
-import { Payment } from './payment.model';
+import Payment from './payment.model';
 
 @Table({
   tableName: 'payment_methods',
   timestamps: false,
 })
-export class PaymentMethod extends Model<PaymentMethod> {
+export default class PaymentMethod extends Model<PaymentMethod> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

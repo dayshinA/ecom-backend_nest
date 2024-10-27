@@ -9,13 +9,13 @@ import {
   BeforeUpdate,
   HasMany,
 } from 'sequelize-typescript';
-import { Order } from './order.model';
+import Order from './order.model';
 
 @Table({
   tableName: 'order_statuses',
   timestamps: false,
 })
-export class OrderStatus extends Model<OrderStatus> {
+export default class OrderStatus extends Model<OrderStatus> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

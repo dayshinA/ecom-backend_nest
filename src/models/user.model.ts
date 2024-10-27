@@ -1,5 +1,4 @@
 // src/models/user.model.ts
-
 import {
   Table,
   Column,
@@ -9,28 +8,27 @@ import {
   DataType,
   BelongsTo,
   ForeignKey,
+  HasOne,
 } from 'sequelize-typescript';
-import { Role } from './role.model';
+import Role from './role.model';
+import SellerProfile from './seller.model';
 
 @Table({
   tableName: 'users',
   timestamps: false,
 })
-export class User extends Model<User> {
-  // user id
+export default class User extends Model<User> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)
   user_id: number;
 
-  // user's name
   @Column({
     type: DataType.STRING(100),
     allowNull: false,
   })
   name: string;
 
-  // user's email
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
@@ -38,7 +36,6 @@ export class User extends Model<User> {
   })
   email: string;
 
-  // user's username
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
@@ -46,28 +43,24 @@ export class User extends Model<User> {
   })
   user_name: string;
 
-  // user's password
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
   })
   password: string;
 
-  // user's contact
   @Column({
     type: DataType.STRING(20),
     allowNull: false,
   })
   contact: string;
 
-  // profile image
   @Column({
     type: DataType.STRING(255),
     allowNull: true,
   })
   profile_image: string;
 
-  // user's role id
   @ForeignKey(() => Role)
   @Column({
     type: DataType.BIGINT,
@@ -78,21 +71,21 @@ export class User extends Model<User> {
   @BelongsTo(() => Role, { as: 'role' })
   role: Role;
 
-  // deleted_at
+  @HasOne(() => SellerProfile, { foreignKey: 'seller_id', as: 'sellerProfile' })
+  sellerProfile: SellerProfile;
+
   @Column({
     type: DataType.DATE,
     allowNull: true,
   })
   deleted_at: Date;
 
-  // created_at
   @Column({
     type: DataType.DATE,
     defaultValue: DataType.NOW,
   })
   created_at: Date;
 
-  // updated_at
   @Column({
     type: DataType.DATE,
     defaultValue: DataType.NOW,

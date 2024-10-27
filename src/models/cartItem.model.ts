@@ -10,15 +10,15 @@ import {
   BelongsTo,
   BeforeUpdate,
 } from 'sequelize-typescript';
-import { Cart } from './cart.model';
-import { Product } from './product.model';
-import { ProductVariation } from './productVariation.model';
+import Cart from './cart.model';
+import Product from './product.model';
+import ProductVariation from './productVariation.model';
 
 @Table({
   tableName: 'cart_items',
   timestamps: false,
 })
-export class CartItem extends Model<CartItem> {
+export default class CartItem extends Model<CartItem> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)

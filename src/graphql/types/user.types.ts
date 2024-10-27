@@ -1,37 +1,37 @@
 // src/graphql/types/user.types.ts
-import { InputType, Field, ObjectType, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
 
 @ObjectType()
-export class User {
-  @Field(() => ID)
+export class UserType {
+  @Field(() => ID, { nullable: true })
   user_id: number;
 
-  @Field()
+  @Field({ nullable: true })
   name: string;
 
-  @Field()
+  @Field({ nullable: true })
   email: string;
 
-  @Field()
+  @Field({ nullable: true })
   user_name: string;
 
-  @Field()
+  @Field({ nullable: true })
   contact: string;
 
   @Field({ nullable: true })
   profile_image?: string;
 
-  @Field()
+  @Field({ nullable: true })
   role_name: string;
 
-  @Field()
+  @Field({ nullable: true })
   is_seller: boolean;
 
   @Field({ nullable: true })
-  created_at?: Date;
+  created_at: Date;
 
   @Field({ nullable: true })
-  updated_at?: Date;
+  updated_at: Date;
 }
 
 @InputType()
@@ -51,7 +51,7 @@ export class SignUpInput {
   @Field()
   contact: string;
 
-  @Field(() => Number)
+  @Field()
   role_id: number;
 }
 
@@ -90,8 +90,8 @@ export class SignUpResponse {
   @Field()
   message: string;
 
-  @Field(() => User, { nullable: true })
-  user?: User;
+  @Field(() => UserType, { nullable: true })
+  user?: UserType;
 }
 
 @ObjectType()
@@ -105,8 +105,8 @@ export class LoginResponse {
   @Field({ nullable: true })
   token?: string;
 
-  @Field(() => User, { nullable: true })
-  user?: User;
+  @Field(() => UserType, { nullable: true })
+  user?: UserType;
 }
 
 @ObjectType()
@@ -117,8 +117,8 @@ export class UpdateUserProfileResponse {
   @Field()
   message: string;
 
-  @Field(() => User, { nullable: true })
-  user?: User;
+  @Field(() => UserType, { nullable: true })
+  user?: UserType;
 }
 
 @ObjectType()
