@@ -82,6 +82,15 @@ export class LoginInput {
   password: string;
 }
 
+@InputType()
+export class ChangePasswordInput {
+  @Field()
+  old_password: string;
+
+  @Field()
+  new_password: string;
+}
+
 @ObjectType()
 export class SignUpResponse {
   @Field()

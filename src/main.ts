@@ -1,6 +1,7 @@
 // src/main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { graphqlUploadExpress } from 'graphql-upload';
 import * as session from 'express-session';
 import * as cron from 'node-cron';
 import * as cors from 'cors';
@@ -11,6 +12,8 @@ async function bootstrap() {
 
   // Enable CORS
   app.use(cors());
+
+  app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 1 }));
 
   // Session setup
   app.use(

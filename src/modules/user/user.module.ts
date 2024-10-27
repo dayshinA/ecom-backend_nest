@@ -7,13 +7,15 @@ import User from '../../models/user.model';
 import Role from '../../models/role.model';
 import SellerProfile from '../../models/seller.model';
 import { AuthModule } from '../auth/auth.module';
+import { CloudinaryModule } from '../../config/cloudinary.module'; // Import CloudinaryModule
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([User, Role, SellerProfile]), // Include all models needed
-    AuthModule
+    SequelizeModule.forFeature([User, Role, SellerProfile]),
+    AuthModule,
+    CloudinaryModule, // Add CloudinaryModule here
   ],
   providers: [UserService, UserResolver],
-  exports: [UserService], // Export UserService if other modules need it
+  exports: [UserService],
 })
 export class UserModule {}

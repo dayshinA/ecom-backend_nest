@@ -1,14 +1,17 @@
 // src/graphql/resolvers/user.resolver.ts
-// src/graphql/resolvers/user.resolver.ts
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { UserService } from '../../modules/user/user.service';
 import { AuthGuard } from '../../middleware/auth.gurad';
+import { createWriteStream } from 'fs';
+import { GraphQLUpload, FileUpload } from 'graphql-upload';
+import { join } from 'path';
 import {
   UserType,
   SignUpInput,
   LoginInput,
   UpdateUserProfileInput,
+  ChangePasswordInput,
   SignUpResponse,
   LoginResponse,
   UpdateUserProfileResponse,
@@ -36,8 +39,12 @@ export class UserResolver {
   }
 
   @Mutation(() => SignUpResponse)
-  async signUp(@Args('input') input: SignUpInput) {
-    return this.userService.createUser(input);
+  async signUp(
+    @Args('input') input: SignUpInput,
+    @Args({ name: 'profileImage', type: () => GraphQLUpload })
+    profileImage: FileUpload,
+  ) {
+    return this.userService.createUser(input, profileImage);
   }
 
   @Mutation(() => LoginResponse)
@@ -66,8 +73,7 @@ export class UserResolver {
   @UseGuards(AuthGuard)
   async changePassword(
     @Context() context,
-    @Args('oldPassword') oldPassword: string,
-    @Args('newPassword') newPassword: string,
+    @Args('input') input: ChangePasswordInput,
   ) {
     if (!context.req.user) {
       return {
@@ -77,10 +83,6 @@ export class UserResolver {
     }
 
     // Return the actual result from the service
-    return this.userService.changePassword(
-      context.req.user.user_id,
-      oldPassword,
-      newPassword,
-    );
+    return this.userService.changePassword(context.req.user.user_id, input);
   }
 }

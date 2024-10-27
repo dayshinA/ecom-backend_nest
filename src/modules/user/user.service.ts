@@ -6,10 +6,15 @@ import User from '../../models/user.model';
 import Role from '../../models/role.model';
 import SellerProfile from '../../models/seller.model';
 import { AuthService } from '../auth/auth.service';
+import { CloudinaryService } from '../../config/cloudinary.config';
+import { FileUpload } from 'graphql-upload';
+import { Express } from 'express';
+import { createReadStream } from 'fs';
 import {
   SignUpInput,
   LoginInput,
   UpdateUserProfileInput,
+  ChangePasswordInput,
 } from '../../graphql/types/user.types';
 
 @Injectable()
@@ -18,15 +23,26 @@ export class UserService {
     @InjectModel(User)
     private userModel: typeof User,
     private readonly authService: AuthService, // Add this
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async createUser(userData: SignUpInput) {
+  async createUser(userData: SignUpInput, profileImage: FileUpload) {
     const { password, ...otherData } = userData;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
+      const { createReadStream, filename } = profileImage;
+      const stream = createReadStream();
+
+      // Upload the image to Cloudinary directly from the stream
+      const uploadResult = await this.cloudinaryService.uploadProfileImage(
+        stream,
+        filename,
+      );
+
       const newUser = await this.userModel.create({
         ...otherData,
         password: hashedPassword,
+        profile_image: uploadResult.secure_url,
       });
 
       const role = await Role.findByPk(newUser.role_id);
@@ -234,8 +250,7 @@ export class UserService {
 
   async changePassword(
     userId: number,
-    oldPassword: string,
-    newPassword: string,
+    changePasswordData: ChangePasswordInput,
   ) {
     try {
       const user = await this.userModel.findByPk(userId);
@@ -248,7 +263,10 @@ export class UserService {
       }
 
       // Verify old password
-      const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+      const isPasswordValid = await bcrypt.compare(
+        changePasswordData.old_password,
+        user.password,
+      );
       if (!isPasswordValid) {
         return {
           success: false,
@@ -257,7 +275,10 @@ export class UserService {
       }
 
       // Make sure new password is different
-      const isSamePassword = await bcrypt.compare(newPassword, user.password);
+      const isSamePassword = await bcrypt.compare(
+        changePasswordData.new_password,
+        user.password,
+      );
       if (isSamePassword) {
         return {
           success: false,
@@ -266,7 +287,10 @@ export class UserService {
       }
 
       // Hash new password
-      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      const hashedNewPassword = await bcrypt.hash(
+        changePasswordData.new_password,
+        10,
+      );
 
       // Update the user's password
       await user.update({ password: hashedNewPassword });

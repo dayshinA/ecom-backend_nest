@@ -57,10 +57,10 @@ type Query {
 }
 
 type Mutation {
-  signUp(input: SignUpInput!): SignUpResponse!
+  signUp(input: SignUpInput!, profileImage: Upload!): SignUpResponse!
   login(input: LoginInput!): LoginResponse!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfileResponse!
-  changePassword(oldPassword: String!, newPassword: String!): ChangePasswordResponse!
+  changePassword(input: ChangePasswordInput!): ChangePasswordResponse!
 }
 
 input SignUpInput {
@@ -71,6 +71,9 @@ input SignUpInput {
   contact: String!
   role_id: Float!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input LoginInput {
   user_name: String!
@@ -83,4 +86,9 @@ input UpdateUserProfileInput {
   user_name: String
   contact: String
   profile_image: String
+}
+
+input ChangePasswordInput {
+  old_password: String!
+  new_password: String!
 }
