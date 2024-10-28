@@ -75,10 +75,35 @@ type DeleteCategoryResponse {
   message: String!
 }
 
+type BrandType {
+  brand_id: ID!
+  brand_name: String!
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type CreateBrandResponse {
+  success: Boolean!
+  message: String!
+  brand: BrandType
+}
+
+type UpdateBrandResponse {
+  success: Boolean!
+  message: String!
+  brand: BrandType
+}
+
+type DeleteBrandResponse {
+  success: Boolean!
+  message: String!
+}
+
 type Query {
   roles: [RoleType!]!
   currentUser: UserType
   categories: [CategoryType!]!
+  brands: [BrandType!]!
 }
 
 type Mutation {
@@ -89,6 +114,9 @@ type Mutation {
   createCategory(input: CategoryInput!): CreateCategoryResponse!
   updateCategory(input: UpdateCategoryInput!): UpdateCategoryResponse!
   deleteCategory(input: DeleteCategoryInput!): DeleteCategoryResponse!
+  createBrand(input: BrandInput!): CreateBrandResponse!
+  updateBrand(input: UpdateBrandInput!): UpdateBrandResponse!
+  deleteBrand(input: DeleteBrandInput!): DeleteBrandResponse!
 }
 
 input SignUpInput {
@@ -133,4 +161,17 @@ input UpdateCategoryInput {
 
 input DeleteCategoryInput {
   category_id: ID!
+}
+
+input BrandInput {
+  brand_name: String!
+}
+
+input UpdateBrandInput {
+  brand_id: ID!
+  brand_name: String!
+}
+
+input DeleteBrandInput {
+  brand_id: ID!
 }

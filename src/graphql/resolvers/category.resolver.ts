@@ -1,7 +1,6 @@
 // src/graphql/resolvers/category.resolver.ts
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { ForbiddenException } from '@nestjs/common';
 import { CategoryService } from '../../modules/category/category.service';
 import { AuthGuard } from '../../middleware/auth.gurad';
 import {
