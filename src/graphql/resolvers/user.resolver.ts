@@ -2,7 +2,7 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { UserService } from '../../modules/user/user.service';
-import { AuthGuard } from '../../middleware/auth.gurad';
+import { AuthGuard } from '../../middleware/auth.guard';
 import {
   UserType,
   SignUpInput,

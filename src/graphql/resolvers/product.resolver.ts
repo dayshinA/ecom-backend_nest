@@ -2,7 +2,7 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { ProductService } from '../../modules/product/product.service';
-import { AuthGuard } from '../../middleware/auth.gurad';
+import { AuthGuard } from '../../middleware/auth.guard';
 import {
   ProductType,
   ProductsResponse,
