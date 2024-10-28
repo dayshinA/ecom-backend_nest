@@ -1,7 +1,7 @@
 // src/graphql/types/seller.types.ts
-// src/graphql/types/seller.types.ts
 import { ObjectType, Field, ID, InputType, Float, Int } from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { UserType } from './user.types';
 import { OrderType } from './checkout.types';
 
@@ -58,11 +58,11 @@ export class CreateSellerProfileInput {
   @Field({ nullable: true })
   store_description?: string;
 
-  @Field({ nullable: true })
-  logo_url?: string;
+  @Field(() => GraphQLUpload, { nullable: true })
+  logo_url?: Promise<FileUpload>;
 
-  @Field({ nullable: true })
-  banner_url?: string;
+  @Field(() => GraphQLUpload, { nullable: true })
+  banner_url?: Promise<FileUpload>;
 
   @Field(() => Float, { nullable: true })
   commission_rate?: number;
@@ -82,11 +82,11 @@ export class UpdateSellerProfileInput {
   @Field({ nullable: true })
   store_description?: string;
 
-  @Field({ nullable: true })
-  logo_url?: string;
+  @Field(() => GraphQLUpload, { nullable: true })
+  logo_url?: Promise<FileUpload>;
 
-  @Field({ nullable: true })
-  banner_url?: string;
+  @Field(() => GraphQLUpload, { nullable: true })
+  banner_url?: Promise<FileUpload>;
 
   @Field(() => Float, { nullable: true })
   commission_rate?: number;
@@ -112,19 +112,15 @@ export class SellerProfileResponse {
 
 @ObjectType()
 export class UserOrdersResponse {
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
+
   @Field(() => [OrderType])
   orders: OrderType[];
 
   @Field(() => Int)
   totalCount: number;
-}
-
-// Optional: Interface for consistent response structure
-@ObjectType()
-export class SellerPaginationParams {
-  @Field(() => Int, { nullable: true })
-  limit?: number;
-
-  @Field(() => Int, { nullable: true })
-  offset?: number;
 }

@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { BrandModule } from './brand/brand.module';
 import { ProductModule } from './product/product.module';
+import { SellerModule } from './seller/seller.module';
 
 export const featureModules = [
   AuthModule,
@@ -13,6 +14,7 @@ export const featureModules = [
   CategoryModule,
   BrandModule,
   ProductModule,
+  SellerModule,
 ];
 
 export {
@@ -22,4 +24,5 @@ export {
   CategoryModule,
   BrandModule,
   ProductModule,
+  SellerModule,
 };

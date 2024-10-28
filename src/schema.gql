@@ -173,6 +173,93 @@ type InventoryResponse {
   inventory: [InventoryItemType!]!
 }
 
+type OrderDetailType {
+  order_detail_id: ID!
+  order_id: ID!
+  product: ProductType!
+  variation: ProductVariationType
+  seller: SellerProfileType!
+  quantity: Int!
+  price: Float!
+  commission: Float!
+  seller_earnings: Float!
+}
+
+type ShippingAddressType {
+  address_id: ID!
+  user_id: ID!
+  recipient_name: String!
+  street_address: String!
+  city: String!
+  state: String
+  postal_code: String!
+  country: String!
+  phone_number: String
+}
+
+type PaymentType {
+  payment_id: ID!
+  order_id: ID!
+  user_id: ID!
+  method: String
+  amount: Float!
+  currency: String!
+  status: String!
+  transaction_id: String
+  payment_date: DateTime!
+}
+
+type OrderType {
+  order_id: ID!
+  user_id: ID!
+  customer_name: String
+  shipping_address: ShippingAddressType
+  payment: PaymentType
+  status: String!
+  subtotal: Float!
+  tax: Float!
+  discount: Float!
+  total: Float!
+  created_at: DateTime!
+  updated_at: DateTime!
+  order_details: [OrderDetailType!]
+}
+
+type PaymentMethodType {
+  method_id: ID!
+  method_name: String!
+}
+
+type SellerProfileType {
+  seller_id: ID!
+  user: UserType!
+  store_name: String!
+  store_description: String
+  logo_url: String
+  banner_url: String
+  commission_rate: Float!
+  payout_method: String
+  payout_details: JSON
+  total_sales: Float!
+  total_revenue: Float!
+  rating: Float
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type SellerProfileResponse {
+  success: Boolean!
+  message: String!
+  sellerProfile: SellerProfileType
+}
+
+type UserOrdersResponse {
+  success: Boolean!
+  message: String!
+  orders: [OrderType!]!
+  totalCount: Int!
+}
+
 type Query {
   roles: [RoleType!]!
   currentUser: UserType
@@ -180,6 +267,8 @@ type Query {
   brands: [BrandType!]!
   products: ProductsResponse!
   sellerInventory: InventoryResponse!
+  sellerProfile: SellerProfileResponse!
+  sellerOrders(limit: Float, offset: Float): UserOrdersResponse!
 }
 
 type Mutation {
@@ -199,6 +288,8 @@ type Mutation {
   createProductVariation(product_id: Float!, input: CreateProductVariationInput!): ProductResponse!
   updateProductVariation(input: UpdateProductVariationInput!): ProductResponse!
   deleteProductVariation(variation_id: Float!): ProductResponse!
+  createSellerProfile(input: CreateSellerProfileInput!): SellerProfileResponse!
+  updateSellerProfile(input: UpdateSellerProfileInput!): SellerProfileResponse!
 }
 
 input SignUpInput {
@@ -295,4 +386,24 @@ input UpdateProductVariationInput {
   attributes: JSON
   price: Float
   stock_quantity: Int
+}
+
+input CreateSellerProfileInput {
+  store_name: String!
+  store_description: String
+  logo_url: Upload
+  banner_url: Upload
+  commission_rate: Float
+  payout_method: String
+  payout_details: JSON
+}
+
+input UpdateSellerProfileInput {
+  store_name: String
+  store_description: String
+  logo_url: Upload
+  banner_url: Upload
+  commission_rate: Float
+  payout_method: String
+  payout_details: JSON
 }
