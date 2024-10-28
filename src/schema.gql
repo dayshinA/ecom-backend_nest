@@ -99,11 +99,87 @@ type DeleteBrandResponse {
   message: String!
 }
 
+type ProductVariationType {
+  variation_id: ID!
+  product_id: ID!
+  sku: String
+  attributes: JSON
+  price: Float!
+  stock_quantity: Int!
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type ProductType {
+  product_id: ID!
+  category_id: ID!
+  brand_id: ID!
+  seller_id: ID!
+  seller_name: String
+  store_name: String
+  category_name: String
+  brand_name: String
+  title: String!
+  price: Float!
+  description: String
+  image: String
+  keywords: String
+  stock_quantity: Int!
+  created_at: DateTime
+  updated_at: DateTime
+  variations: [ProductVariationType!]
+}
+
+type InventoryItemType {
+  product_id: ID!
+  category_id: ID!
+  brand_id: ID!
+  seller_id: ID!
+  title: String!
+  price: Float!
+  description: String
+  image: String
+  keywords: String
+  stock_quantity: Int!
+  created_at: DateTime
+  updated_at: DateTime
+  variations: [ProductVariationType!]
+  category_name: String
+  brand_name: String
+  inventory_quantity: Int!
+  low_stock_threshold: Int!
+}
+
+type ProductResponse {
+  success: Boolean!
+  message: String!
+  product: ProductType
+}
+
+type ProductsResponse {
+  success: Boolean!
+  message: String!
+  products: [ProductType!]!
+}
+
+type InventoryResponse {
+  success: Boolean!
+  message: String!
+  inventory: [InventoryItemType!]!
+}
+
 type Query {
   roles: [RoleType!]!
   currentUser: UserType
   categories: [CategoryType!]!
   brands: [BrandType!]!
+  products: ProductsResponse!
+  sellerInventory: InventoryResponse!
 }
 
 type Mutation {
@@ -117,6 +193,12 @@ type Mutation {
   createBrand(input: BrandInput!): CreateBrandResponse!
   updateBrand(input: UpdateBrandInput!): UpdateBrandResponse!
   deleteBrand(input: DeleteBrandInput!): DeleteBrandResponse!
+  createProduct(input: CreateProductInput!): ProductResponse!
+  updateProduct(input: UpdateProductInput!): ProductResponse!
+  deleteProduct(product_id: Float!): ProductResponse!
+  createProductVariation(product_id: Float!, input: CreateProductVariationInput!): ProductResponse!
+  updateProductVariation(input: UpdateProductVariationInput!): ProductResponse!
+  deleteProductVariation(variation_id: Float!): ProductResponse!
 }
 
 input SignUpInput {
@@ -174,4 +256,43 @@ input UpdateBrandInput {
 
 input DeleteBrandInput {
   brand_id: ID!
+}
+
+input CreateProductInput {
+  category_id: ID!
+  brand_id: ID!
+  title: String!
+  price: Float!
+  description: String
+  image: Upload
+  keywords: String
+  stock_quantity: Int!
+  variations: [CreateProductVariationInput!]
+}
+
+input CreateProductVariationInput {
+  sku: String
+  attributes: JSON
+  price: Float!
+  stock_quantity: Int!
+}
+
+input UpdateProductInput {
+  product_id: ID!
+  category_id: ID
+  brand_id: ID
+  title: String
+  price: Float
+  description: String
+  image: Upload
+  keywords: String
+  stock_quantity: Int
+}
+
+input UpdateProductVariationInput {
+  variation_id: ID!
+  sku: String
+  attributes: JSON
+  price: Float
+  stock_quantity: Int
 }

@@ -4,6 +4,7 @@ import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { BrandModule } from './brand/brand.module';
+import { ProductModule } from './product/product.module';
 
 export const featureModules = [
   AuthModule,
@@ -11,6 +12,14 @@ export const featureModules = [
   UserModule,
   CategoryModule,
   BrandModule,
+  ProductModule,
 ];
 
-export { AuthModule, RoleModule, UserModule, CategoryModule, BrandModule };
+export {
+  AuthModule,
+  RoleModule,
+  UserModule,
+  CategoryModule,
+  BrandModule,
+  ProductModule,
+};

@@ -70,8 +70,28 @@ export class CloudinaryService {
     }
   }
 
-  public uploadProductImage(file: string) {
-    return this.uploadToCloudinary(file, this.FOLDERS.PRODUCTS);
+  public async uploadProductImage(
+    stream: NodeJS.ReadableStream,
+    filename: string,
+  ): Promise<UploadApiResponse> {
+    return new Promise((resolve, reject) => {
+      const cloudinaryStream = cloudinary.uploader.upload_stream(
+        {
+          folder: this.FOLDERS.PRODUCTS,
+          public_id: filename,
+          resource_type: 'image',
+          transformation: [{ width: 1000, height: 1000, crop: 'limit' }],
+        },
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        },
+      );
+      stream.pipe(cloudinaryStream);
+    });
   }
 
   public async uploadProfileImage(
@@ -81,7 +101,7 @@ export class CloudinaryService {
     return new Promise((resolve, reject) => {
       const cloudinaryStream = cloudinary.uploader.upload_stream(
         {
-          folder: 'ecommerce/profiles',
+          folder: this.FOLDERS.PROFILES,
           public_id: filename,
           resource_type: 'image',
         },
@@ -98,8 +118,27 @@ export class CloudinaryService {
     });
   }
 
-  public uploadStoreImage(file: string) {
-    return this.uploadToCloudinary(file, this.FOLDERS.STORES);
+  public async uploadStoreImage(
+    stream: NodeJS.ReadableStream,
+    filename: string,
+  ): Promise<UploadApiResponse> {
+    return new Promise((resolve, reject) => {
+      const cloudinaryStream = cloudinary.uploader.upload_stream(
+        {
+          folder: this.FOLDERS.STORES,
+          public_id: filename,
+          resource_type: 'image',
+        },
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        },
+      );
+      stream.pipe(cloudinaryStream);
+    });
   }
 
   public async deleteFromCloudinary(public_id: string): Promise<boolean> {

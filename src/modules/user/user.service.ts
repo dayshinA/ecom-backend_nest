@@ -8,8 +8,6 @@ import SellerProfile from '../../models/seller.model';
 import { AuthService } from '../auth/auth.service';
 import { CloudinaryService } from '../../config/cloudinary.config';
 import { FileUpload } from 'graphql-upload';
-import { Express } from 'express';
-import { createReadStream } from 'fs';
 import {
   SignUpInput,
   LoginInput,
