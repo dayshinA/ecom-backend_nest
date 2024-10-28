@@ -3,9 +3,6 @@ import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { UserService } from '../../modules/user/user.service';
 import { AuthGuard } from '../../middleware/auth.gurad';
-import { createWriteStream } from 'fs';
-import { GraphQLUpload, FileUpload } from 'graphql-upload';
-import { join } from 'path';
 import {
   UserType,
   SignUpInput,

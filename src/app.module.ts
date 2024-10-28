@@ -6,13 +6,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
 import { CloudinaryService } from './config/cloudinary.config';
 import { join } from 'path';
-import { AuthModule } from './modules/auth/auth.module';
-import { RoleModule } from './modules/role/role.module';
-import { UserModule } from './modules/user/user.module';
-import Role from './models/role.model';
-import User from './models/user.model';
-import SellerProfile from './models/seller.model';
 import { CloudinaryModule } from './config/cloudinary.module';
+import { models } from './models';
+import { featureModules } from './modules';
 
 @Module({
   imports: [
@@ -25,7 +21,7 @@ import { CloudinaryModule } from './config/cloudinary.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [Role, User, SellerProfile], // Include both models
+      models: models,
       autoLoadModels: true,
       synchronize: false, // Changed to false for safety
       logging: false,
@@ -39,9 +35,7 @@ import { CloudinaryModule } from './config/cloudinary.module';
       context: ({ req }) => ({ req }),
     }),
 
-    AuthModule,
-    RoleModule,
-    UserModule,
+    ...featureModules,
     CloudinaryModule,
   ],
   providers: [CloudinaryService],

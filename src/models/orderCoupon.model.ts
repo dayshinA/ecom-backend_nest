@@ -7,6 +7,8 @@ import {
   AutoIncrement,
   DataType,
   BeforeUpdate,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
 import Order from './order.model';
 import Coupon from './coupon.model';
@@ -21,9 +23,11 @@ export default class OrderCoupon extends Model<OrderCoupon> {
   @Column(DataType.BIGINT)
   order_coupon_id: number;
 
+  @ForeignKey(() => Order)
   @Column({ type: DataType.BIGINT, allowNull: false })
   order_id: number;
 
+  @ForeignKey(() => Coupon)
   @Column({ type: DataType.BIGINT, allowNull: false })
   coupon_id: number;
 
@@ -32,6 +36,12 @@ export default class OrderCoupon extends Model<OrderCoupon> {
 
   @Column({ type: DataType.DATE, defaultValue: DataType.NOW })
   updated_at: Date;
+
+  @BelongsTo(() => Order)
+  order: Order;
+
+  @BelongsTo(() => Coupon)
+  coupon: Coupon;
 
   @BeforeUpdate
   static updateTimestamp(orderCoupon: OrderCoupon) {

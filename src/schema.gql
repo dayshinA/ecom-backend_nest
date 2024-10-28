@@ -51,9 +51,34 @@ type ChangePasswordResponse {
   message: String!
 }
 
+type CategoryType {
+  category_id: ID!
+  category_name: String!
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type CreateCategoryResponse {
+  success: Boolean!
+  message: String!
+  category: CategoryType
+}
+
+type UpdateCategoryResponse {
+  success: Boolean!
+  message: String!
+  category: CategoryType
+}
+
+type DeleteCategoryResponse {
+  success: Boolean!
+  message: String!
+}
+
 type Query {
   roles: [RoleType!]!
   currentUser: UserType
+  categories: [CategoryType!]!
 }
 
 type Mutation {
@@ -61,6 +86,9 @@ type Mutation {
   login(input: LoginInput!): LoginResponse!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfileResponse!
   changePassword(input: ChangePasswordInput!): ChangePasswordResponse!
+  createCategory(input: CategoryInput!): CreateCategoryResponse!
+  updateCategory(input: UpdateCategoryInput!): UpdateCategoryResponse!
+  deleteCategory(input: DeleteCategoryInput!): DeleteCategoryResponse!
 }
 
 input SignUpInput {
@@ -92,4 +120,17 @@ input UpdateUserProfileInput {
 input ChangePasswordInput {
   old_password: String!
   new_password: String!
+}
+
+input CategoryInput {
+  category_name: String!
+}
+
+input UpdateCategoryInput {
+  category_id: ID!
+  category_name: String!
+}
+
+input DeleteCategoryInput {
+  category_id: ID!
 }
