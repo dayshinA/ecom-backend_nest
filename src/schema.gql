@@ -260,6 +260,70 @@ type UserOrdersResponse {
   totalCount: Int!
 }
 
+type CreateAdminResponse {
+  success: Boolean!
+  message: String!
+  user: UserType
+}
+
+type UpdateUserRoleResponse {
+  success: Boolean!
+  message: String!
+  user: UserType
+}
+
+type OrderResponse {
+  success: Boolean!
+  message: String!
+  order: OrderType
+}
+
+type OrdersResponse {
+  success: Boolean!
+  message: String!
+  orders: [OrderType!]!
+  totalCount: Int!
+}
+
+type AllUsersResponse {
+  users: [UserType!]!
+  totalCount: Int!
+}
+
+type AllCustomersResponse {
+  customers: [UserType!]!
+  totalCount: Int!
+}
+
+type SellerWithProfile {
+  user_id: ID!
+  name: String!
+  email: String!
+  user_name: String!
+  contact: String!
+  profile_image: String
+  role_name: String!
+  is_seller: Boolean!
+  created_at: DateTime
+  updated_at: DateTime
+  sellerProfile: SellerProfileType
+}
+
+type SellersWithProfileResponse {
+  sellers: [SellerWithProfile!]!
+  totalCount: Int!
+}
+
+type AllSellersResponse {
+  sellers: [UserType!]!
+  totalCount: Int!
+}
+
+type DeleteUserResponse {
+  success: Boolean!
+  message: String!
+}
+
 type Query {
   roles: [RoleType!]!
   currentUser: UserType
@@ -269,6 +333,18 @@ type Query {
   sellerInventory: InventoryResponse!
   sellerProfile: SellerProfileResponse!
   sellerOrders(limit: Float, offset: Float): UserOrdersResponse!
+  getAllUsers: AllUsersResponse!
+  getCustomers: AllCustomersResponse!
+  getSellers: AllSellersResponse!
+  getSellersWithProfile: SellersWithProfileResponse!
+  getUserById(userId: Float!): UserType
+  getAllOrders(input: GetOrdersInput): OrdersResponse!
+  getOrder(orderId: Float!): OrderResponse!
+}
+
+input GetOrdersInput {
+  limit: Int
+  offset: Int
 }
 
 type Mutation {
@@ -290,6 +366,9 @@ type Mutation {
   deleteProductVariation(variation_id: Float!): ProductResponse!
   createSellerProfile(input: CreateSellerProfileInput!): SellerProfileResponse!
   updateSellerProfile(input: UpdateSellerProfileInput!): SellerProfileResponse!
+  createAdmin(input: CreateAdminInput!): CreateAdminResponse!
+  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRoleResponse!
+  deleteUser(userId: Float!): DeleteUserResponse!
 }
 
 input SignUpInput {
@@ -406,4 +485,17 @@ input UpdateSellerProfileInput {
   commission_rate: Float
   payout_method: String
   payout_details: JSON
+}
+
+input CreateAdminInput {
+  name: String!
+  email: String!
+  user_name: String!
+  password: String!
+  contact: String!
+}
+
+input UpdateUserRoleInput {
+  userId: ID!
+  roleId: ID!
 }

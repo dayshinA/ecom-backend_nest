@@ -1,8 +1,8 @@
 // src/graphql/types/admin.types.ts
 import { Field, ID, ObjectType, InputType, Int } from '@nestjs/graphql';
 import { UserType } from './user.types';
-import Order  from '../../models/order.model';
-import SellerProfile  from '../../models/seller.model';
+import { OrderType } from './checkout.types';
+import { SellerProfileType } from './seller.types';
 
 // Query Return Types
 @ObjectType()
@@ -37,14 +37,20 @@ export class OrderResponse {
   @Field()
   message: string;
 
-  @Field(() => Order, { nullable: true })
-  order?: Order;
+  @Field(() => OrderType, { nullable: true })
+  order?: OrderType;
 }
 
 @ObjectType()
 export class OrdersResponse {
-  @Field(() => [Order])
-  orders: Order[];
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
+
+  @Field(() => [OrderType])
+  orders: OrderType[];
 
   @Field(() => Int)
   totalCount: number;
@@ -100,8 +106,8 @@ export class SellerWithProfile {
   @Field({ nullable: true })
   updated_at?: Date;
 
-  @Field(() => SellerProfile, { nullable: true })
-  sellerProfile?: SellerProfile;
+  @Field(() => SellerProfileType, { nullable: true })
+  sellerProfile?: SellerProfileType;
 }
 
 @ObjectType()
