@@ -324,6 +324,34 @@ type DeleteUserResponse {
   message: String!
 }
 
+type CartItemType {
+  cart_item_id: ID!
+  cart_id: ID!
+  product: ProductType!
+  variation: ProductVariationType
+  quantity: Int!
+  price: Float!
+  total_price: Float!
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type CartType {
+  cart_id: ID!
+  user_id: ID
+  session_id: String
+  items: [CartItemType!]!
+  total_price: Float!
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type CartResponse {
+  success: Boolean!
+  message: String!
+  cart: CartType
+}
+
 type Query {
   roles: [RoleType!]!
   currentUser: UserType
@@ -340,6 +368,7 @@ type Query {
   getUserById(userId: Float!): UserType
   getAllOrders(input: GetOrdersInput): OrdersResponse!
   getOrder(orderId: Float!): OrderResponse!
+  getCart: CartResponse!
 }
 
 input GetOrdersInput {
@@ -369,6 +398,11 @@ type Mutation {
   createAdmin(input: CreateAdminInput!): CreateAdminResponse!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRoleResponse!
   deleteUser(userId: Float!): DeleteUserResponse!
+  addToCart(input: AddToCartInput!): CartResponse!
+  updateCartItem(input: UpdateCartItemInput!): CartResponse!
+  removeFromCart(cart_item_id: Float!): CartResponse!
+  clearCart: CartResponse!
+  mergeGuestCart(guest_session_id: String!): CartResponse!
 }
 
 input SignUpInput {
@@ -498,4 +532,15 @@ input CreateAdminInput {
 input UpdateUserRoleInput {
   userId: ID!
   roleId: ID!
+}
+
+input AddToCartInput {
+  product_id: ID!
+  variation_id: ID
+  quantity: Int!
+}
+
+input UpdateCartItemInput {
+  cart_item_id: ID!
+  quantity: Int!
 }
