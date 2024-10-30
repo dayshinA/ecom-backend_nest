@@ -5,20 +5,17 @@ import { OrderType } from './checkout.types';
 
 @ObjectType()
 export class CustomerOrdersResponse {
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
+
   @Field(() => [OrderType])
   orders: OrderType[];
 
   @Field(() => Int)
   totalCount: number;
-}
-
-@ObjectType()
-export class OrderConnection {
-  @Field(() => [OrderType])
-  rows: OrderType[];
-
-  @Field(() => Int)
-  count: number;
 }
 
 // Optional: Pagination parameters input type for query

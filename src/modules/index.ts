@@ -8,6 +8,7 @@ import { ProductModule } from './product/product.module';
 import { SellerModule } from './seller/seller.module';
 import { AdminModule } from './admin/admin.module';
 import { CartModule } from './cart/cart.module';
+import { CustomerModule } from './customer/customer.module';
 
 export const featureModules = [
   AuthModule,
@@ -19,6 +20,7 @@ export const featureModules = [
   SellerModule,
   AdminModule,
   CartModule,
+  CustomerModule,
 ];
 
 export {
@@ -31,4 +33,5 @@ export {
   SellerModule,
   AdminModule,
   CartModule,
+  CustomerModule,
 };

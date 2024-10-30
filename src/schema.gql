@@ -352,6 +352,13 @@ type CartResponse {
   cart: CartType
 }
 
+type CustomerOrdersResponse {
+  success: Boolean!
+  message: String!
+  orders: [OrderType!]!
+  totalCount: Int!
+}
+
 type Query {
   roles: [RoleType!]!
   currentUser: UserType
@@ -369,6 +376,7 @@ type Query {
   getAllOrders(input: GetOrdersInput): OrdersResponse!
   getOrder(orderId: Float!): OrderResponse!
   getCart: CartResponse!
+  getCustomerOrders(limit: Float, offset: Float): CustomerOrdersResponse!
 }
 
 input GetOrdersInput {
