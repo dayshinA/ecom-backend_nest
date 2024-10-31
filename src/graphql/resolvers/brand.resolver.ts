@@ -77,6 +77,16 @@ export class BrandResolver {
         brand: null,
       };
     }
+
+    try {
+      return await this.brandService.editBrand(input);
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message,
+        brand: null,
+      };
+    }
   }
 
   @Mutation(() => DeleteBrandResponse)

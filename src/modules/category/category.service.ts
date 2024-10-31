@@ -50,9 +50,7 @@ export class CategoryService {
     }
   }
 
-  async editCategory(
-    input: UpdateCategoryInput,
-  ): Promise<CategoryResponse> {
+  async editCategory(input: UpdateCategoryInput): Promise<CategoryResponse> {
     try {
       const category = await this.categoryModel.findByPk(input.category_id);
 
@@ -96,7 +94,11 @@ export class CategoryService {
           category: null,
         };
       }
-      throw new Error(`Failed to update category: ${error.message}`);
+      return {
+        success: false,
+        message: 'Failed to update brand',
+        category: null,
+      };
     }
   }
 

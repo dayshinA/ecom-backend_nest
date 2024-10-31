@@ -62,7 +62,7 @@ export class BrandService {
     try {
       const brand = await this.brandModel.findByPk(input.brand_id);
 
-      //   check brand
+      // check brand
       if (!brand) {
         return {
           success: false,
@@ -71,7 +71,7 @@ export class BrandService {
         };
       }
 
-      //   check if brand exits
+      // check if brand name exists
       const existingBrand = await this.brandModel.findOne({
         where: { brand_name: input.brand_name },
       });
@@ -79,14 +79,29 @@ export class BrandService {
       if (existingBrand && existingBrand.brand_id !== input.brand_id) {
         return {
           success: false,
-          message: 'Brand name already exits',
+          message: 'Brand name already exists',
           brand: null,
         };
       }
 
+      // Update brand name
       brand.brand_name = input.brand_name;
       await brand.save();
-    } catch (error) {}
+
+      // Return success response with updated brand
+      return {
+        success: true,
+        message: 'Brand updated successfully',
+        brand: brand,
+      };
+    } catch (error) {
+      // Handle any errors
+      return {
+        success: false,
+        message: 'Failed to update brand',
+        brand: null,
+      };
+    }
   }
 
   async deleteBrand(input: DeleteBrandInput): Promise<DeleteBrandResponse> {
