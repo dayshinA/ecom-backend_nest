@@ -3,6 +3,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AdminService } from './admin.service';
+import { PaymentMethodService } from '../paymentMethod/paymentMethod.service';
 import { AdminResolver } from '../../graphql/resolvers/admin.resolver';
 import User from '../../models/user.model';
 import Role from '../../models/role.model';
@@ -38,7 +39,7 @@ import { AuthModule } from '../auth/auth.module';
     ]),
     AuthModule,
   ],
-  providers: [AdminService, AdminResolver],
-  exports: [AdminService],
+  providers: [AdminService, AdminResolver, PaymentMethodService],
+  exports: [AdminService, PaymentMethodService],
 })
 export class AdminModule {}

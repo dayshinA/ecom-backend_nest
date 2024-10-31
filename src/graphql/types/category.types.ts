@@ -38,19 +38,7 @@ export class DeleteCategoryInput {
 }
 
 @ObjectType()
-export class CreateCategoryResponse {
-  @Field()
-  success: boolean;
-
-  @Field()
-  message: string;
-
-  @Field(() => CategoryType, { nullable: true })
-  category?: CategoryType;
-}
-
-@ObjectType()
-export class UpdateCategoryResponse {
+export class CategoryResponse {
   @Field()
   success: boolean;
 

@@ -76,7 +76,7 @@ export class SellerRatingResponse {
   message?: string;
 
   @Field()
-  averageRating: string;
+  averageRating: number;
 
   @Field(() => Int)
   totalReviews: number;

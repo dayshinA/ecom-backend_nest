@@ -1,5 +1,4 @@
 // src/graphql/types/checkout.types.ts
-// src/graphql/types/checkout.types.ts
 import { ObjectType, Field, ID, InputType, Float, Int } from '@nestjs/graphql';
 import { ProductType, ProductVariationType } from './product.types';
 import { SellerProfileType } from './seller.types';
@@ -38,7 +37,43 @@ export class ShippingAddressInput {
 }
 
 @InputType()
+export class UpdateShippingAddressInput {
+  @Field(() => ID)
+  address_id: number;
+
+  @Field({ nullable: true })
+  recipient_name?: string;
+
+  @Field({ nullable: true })
+  street_address?: string;
+
+  @Field({ nullable: true })
+  city?: string;
+
+  @Field({ nullable: true })
+  state?: string;
+
+  @Field({ nullable: true })
+  postal_code?: string;
+
+  @Field({ nullable: true })
+  country?: string;
+
+  @Field({ nullable: true })
+  phone_number?: string;
+}
+
+@InputType()
 export class PaymentMethodInput {
+  @Field()
+  method_name: string;
+}
+
+@InputType()
+export class PaymentMethodUpdateInput {
+  @Field(() => ID)
+  method_id: number;
+
   @Field()
   method_name: string;
 }
@@ -203,16 +238,62 @@ export class PaymentMethodType {
 
   @Field()
   method_name: string;
+
+  @Field()
+  created_at: Date;
+
+  @Field()
+  updated_at: Date;
 }
 
 @ObjectType()
 export class ShippingAddressResponse {
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
+
   @Field(() => ShippingAddressType)
   shippingAddress: ShippingAddressType;
 }
 
 @ObjectType()
+export class ShippingAddressesResponse {
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
+
+  @Field(() => [ShippingAddressType], { nullable: true })
+  shippingAddresses: ShippingAddressType[];
+}
+@ObjectType()
+export class DeleteShippingAddressResponse {
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
+}
+
+@ObjectType()
 export class PaymentMethodResponse {
-  @Field(() => PaymentMethodType)
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
+
+  @Field(() => PaymentMethodType, { nullable: true })
   paymentMethod: PaymentMethodType;
+}
+@ObjectType()
+export class DeletePaymentMethodResponse {
+  @Field()
+  success: boolean;
+
+  @Field()
+  message: string;
 }

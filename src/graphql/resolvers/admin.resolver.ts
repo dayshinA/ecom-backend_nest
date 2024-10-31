@@ -4,6 +4,7 @@ import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AdminService } from '../../modules/admin/admin.service';
 import { AuthGuard } from '../../middleware/auth.guard';
+import { PaymentMethodService } from '../../modules/paymentMethod/paymentMethod.service';
 import {
   CreateAdminInput,
   CreateAdminResponse,
@@ -19,6 +20,12 @@ import {
   OrdersResponse,
 } from '../types/admin.types';
 import { UserType } from '../types/user.types';
+import {
+  PaymentMethodInput,
+  PaymentMethodUpdateInput,
+  PaymentMethodResponse,
+  DeletePaymentMethodResponse,
+} from '../types/checkout.types';
 
 interface RequestContext {
   req: {
@@ -31,7 +38,10 @@ interface RequestContext {
 
 @Resolver(() => UserType)
 export class AdminResolver {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly paymentMethodService: PaymentMethodService,
+  ) {}
 
   private checkAdminAccess(context: RequestContext, action: string) {
     if (!context.req.user) {
@@ -116,6 +126,36 @@ export class AdminResolver {
   ): Promise<OrderResponse> {
     this.checkAdminAccess(context, 'access order details');
     return this.adminService.getOrderById(orderId);
+  }
+
+  @Mutation(() => PaymentMethodResponse)
+  @UseGuards(AuthGuard)
+  async createPaymentMethod(
+    @Args('input') input: PaymentMethodInput,
+    @Context() context: RequestContext,
+  ): Promise<PaymentMethodResponse> {
+    this.checkAdminAccess(context, 'create new payment methods');
+    return this.paymentMethodService.createPaymentMethod(input);
+  }
+
+  @Mutation(() => PaymentMethodResponse)
+  @UseGuards(AuthGuard)
+  async updatePaymentMethod(
+    @Args('input') input: PaymentMethodUpdateInput,
+    @Context() context: RequestContext,
+  ): Promise<PaymentMethodResponse> {
+    this.checkAdminAccess(context, 'update payment methods');
+    return this.paymentMethodService.updatePaymentMethod(input);
+  }
+
+  @Mutation(() => DeletePaymentMethodResponse)
+  @UseGuards(AuthGuard)
+  async deletePaymentMethod(
+    @Args('methodId') methodId: number,
+    @Context() context: RequestContext,
+  ): Promise<DeletePaymentMethodResponse> {
+    this.checkAdminAccess(context, 'delete payment methods');
+    return this.paymentMethodService.deletePaymentMethod(methodId);
   }
 
   @Mutation(() => CreateAdminResponse)

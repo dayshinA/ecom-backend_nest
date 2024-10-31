@@ -8,8 +8,7 @@ import {
   CategoryInput,
   UpdateCategoryInput,
   DeleteCategoryInput,
-  CreateCategoryResponse,
-  UpdateCategoryResponse,
+  CategoryResponse,
   DeleteCategoryResponse,
 } from '../types/category.types';
 
@@ -27,12 +26,12 @@ export class CategoryResolver {
     }
   }
 
-  @Mutation(() => CreateCategoryResponse)
+  @Mutation(() => CategoryResponse)
   @UseGuards(AuthGuard)
   async createCategory(
     @Context() context,
     @Args('input') input: CategoryInput,
-  ): Promise<CreateCategoryResponse> {
+  ): Promise<CategoryResponse> {
     if (!context.req.user) {
       return {
         success: false,
@@ -58,12 +57,12 @@ export class CategoryResolver {
     }
   }
 
-  @Mutation(() => UpdateCategoryResponse)
+  @Mutation(() => CategoryResponse)
   @UseGuards(AuthGuard)
   async updateCategory(
     @Context() context,
     @Args('input') input: UpdateCategoryInput,
-  ): Promise<UpdateCategoryResponse> {
+  ): Promise<CategoryResponse> {
     if (!context.req.user) {
       return {
         success: false,

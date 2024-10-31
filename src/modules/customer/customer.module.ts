@@ -14,6 +14,7 @@ import OrderStatus from '../../models/orderStatus.model';
 import User from '../../models/user.model';
 import SellerProfile from '../../models/seller.model';
 import { AuthModule } from '../auth/auth.module';
+import { ShippingAddressService } from '../shippingAddress/shippingAddress.service';
 
 @Module({
   imports: [
@@ -31,7 +32,7 @@ import { AuthModule } from '../auth/auth.module';
     ]),
     AuthModule,
   ],
-  providers: [CustomerService, CustomerResolver],
-  exports: [CustomerService],
+  providers: [CustomerService, ShippingAddressService, CustomerResolver],
+  exports: [CustomerService, ShippingAddressService],
 })
 export class CustomerModule {}

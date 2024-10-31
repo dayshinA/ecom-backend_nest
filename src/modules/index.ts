@@ -9,6 +9,9 @@ import { SellerModule } from './seller/seller.module';
 import { AdminModule } from './admin/admin.module';
 import { CartModule } from './cart/cart.module';
 import { CustomerModule } from './customer/customer.module';
+import { CheckoutModule } from './checkout/checkout.module';
+import { ReviewModule } from './review/review.module';
+import { SellerReviewModule } from './sellerReview/sellerReview.module';
 
 export const featureModules = [
   AuthModule,
@@ -21,6 +24,9 @@ export const featureModules = [
   AdminModule,
   CartModule,
   CustomerModule,
+  CheckoutModule,
+  ReviewModule,
+  SellerReviewModule,
 ];
 
 export {
@@ -34,4 +40,7 @@ export {
   AdminModule,
   CartModule,
   CustomerModule,
+  CheckoutModule,
+  ReviewModule,
+  SellerReviewModule,
 };

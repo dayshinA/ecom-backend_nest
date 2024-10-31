@@ -58,13 +58,7 @@ type CategoryType {
   updated_at: DateTime
 }
 
-type CreateCategoryResponse {
-  success: Boolean!
-  message: String!
-  category: CategoryType
-}
-
-type UpdateCategoryResponse {
+type CategoryResponse {
   success: Boolean!
   message: String!
   category: CategoryType
@@ -225,9 +219,45 @@ type OrderType {
   order_details: [OrderDetailType!]
 }
 
+type CheckoutResponse {
+  success: Boolean!
+  message: String!
+  order: OrderType
+}
+
 type PaymentMethodType {
   method_id: ID!
   method_name: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type ShippingAddressResponse {
+  success: Boolean!
+  message: String!
+  shippingAddress: ShippingAddressType!
+}
+
+type ShippingAddressesResponse {
+  success: Boolean!
+  message: String!
+  shippingAddresses: [ShippingAddressType!]
+}
+
+type DeleteShippingAddressResponse {
+  success: Boolean!
+  message: String!
+}
+
+type PaymentMethodResponse {
+  success: Boolean!
+  message: String!
+  paymentMethod: PaymentMethodType
+}
+
+type DeletePaymentMethodResponse {
+  success: Boolean!
+  message: String!
 }
 
 type SellerProfileType {
@@ -359,6 +389,80 @@ type CustomerOrdersResponse {
   totalCount: Int!
 }
 
+type ReviewType {
+  review_id: ID!
+  product_id: ID!
+  user_id: ID!
+  rating: Int!
+  comment: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: UserType
+  product: ProductType
+}
+
+type ReviewResponse {
+  success: Boolean!
+  message: String
+  review: ReviewType
+}
+
+type ReviewsResponse {
+  success: Boolean!
+  message: String
+  reviews: [ReviewType!]!
+  totalCount: Int!
+  totalPages: Int!
+  currentPage: Int!
+}
+
+type ProductRatingResponse {
+  success: Boolean!
+  message: String
+  averageRating: Float!
+  totalReviews: Int!
+}
+
+type AllReviewsResponse {
+  success: Boolean!
+  message: String!
+  reviews: [ReviewType!]!
+}
+
+type SellerReviewType {
+  review_id: ID!
+  seller_id: ID!
+  user_id: ID!
+  rating: Int!
+  comment: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: UserType
+  seller: SellerProfileType
+}
+
+type SellerReviewResponse {
+  success: Boolean!
+  message: String
+  review: SellerReviewType
+}
+
+type SellerReviewsResponse {
+  success: Boolean!
+  message: String
+  reviews: [SellerReviewType!]!
+  totalCount: Int!
+  totalPages: Int!
+  currentPage: Int!
+}
+
+type SellerRatingResponse {
+  success: Boolean!
+  message: String
+  averageRating: Float!
+  totalReviews: Int!
+}
+
 type Query {
   roles: [RoleType!]!
   currentUser: UserType
@@ -376,7 +480,15 @@ type Query {
   getAllOrders(input: GetOrdersInput): OrdersResponse!
   getOrder(orderId: Float!): OrderResponse!
   getCart: CartResponse!
+  getUserShippingAddresses: ShippingAddressesResponse!
   getCustomerOrders(limit: Float, offset: Float): CustomerOrdersResponse!
+  paymentMethods: [PaymentMethodType!]!
+  productReviews(productId: Float!, page: Float = 1, limit: Float = 10): ReviewsResponse!
+  allReviewsForProduct(productId: Float!): AllReviewsResponse!
+  productRating(productId: Float!): ProductRatingResponse!
+  userReviews(page: Float = 1, limit: Float = 10): ReviewsResponse!
+  sellerReviews(input: SellerReviewsQueryInput!): SellerReviewsResponse!
+  sellerRating(input: SellerRatingQueryInput!): SellerRatingResponse!
 }
 
 input GetOrdersInput {
@@ -384,13 +496,23 @@ input GetOrdersInput {
   offset: Int
 }
 
+input SellerReviewsQueryInput {
+  sellerId: ID!
+  page: Int
+  limit: Int
+}
+
+input SellerRatingQueryInput {
+  sellerId: ID!
+}
+
 type Mutation {
   signUp(input: SignUpInput!): SignUpResponse!
   login(input: LoginInput!): LoginResponse!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfileResponse!
   changePassword(input: ChangePasswordInput!): ChangePasswordResponse!
-  createCategory(input: CategoryInput!): CreateCategoryResponse!
-  updateCategory(input: UpdateCategoryInput!): UpdateCategoryResponse!
+  createCategory(input: CategoryInput!): CategoryResponse!
+  updateCategory(input: UpdateCategoryInput!): CategoryResponse!
   deleteCategory(input: DeleteCategoryInput!): DeleteCategoryResponse!
   createBrand(input: BrandInput!): CreateBrandResponse!
   updateBrand(input: UpdateBrandInput!): UpdateBrandResponse!
@@ -403,6 +525,9 @@ type Mutation {
   deleteProductVariation(variation_id: Float!): ProductResponse!
   createSellerProfile(input: CreateSellerProfileInput!): SellerProfileResponse!
   updateSellerProfile(input: UpdateSellerProfileInput!): SellerProfileResponse!
+  createPaymentMethod(input: PaymentMethodInput!): PaymentMethodResponse!
+  updatePaymentMethod(input: PaymentMethodUpdateInput!): PaymentMethodResponse!
+  deletePaymentMethod(methodId: Float!): DeletePaymentMethodResponse!
   createAdmin(input: CreateAdminInput!): CreateAdminResponse!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRoleResponse!
   deleteUser(userId: Float!): DeleteUserResponse!
@@ -411,6 +536,16 @@ type Mutation {
   removeFromCart(cart_item_id: Float!): CartResponse!
   clearCart: CartResponse!
   mergeGuestCart(guest_session_id: String!): CartResponse!
+  createShippingAddress(input: ShippingAddressInput!): ShippingAddressResponse!
+  updateShippingAddress(addressId: Float!, input: UpdateShippingAddressInput!): ShippingAddressResponse!
+  deleteShippingAddress(addressId: Float!): DeleteShippingAddressResponse!
+  checkout(input: CheckoutInput!): CheckoutResponse!
+  createReview(input: CreateReviewInput!): ReviewResponse!
+  updateReview(input: UpdateReviewInput!): ReviewResponse!
+  deleteReview(reviewId: Float!): ReviewResponse!
+  createSellerReview(input: CreateSellerReviewInput!): SellerReviewResponse!
+  updateSellerReview(input: UpdateSellerReviewInput!): SellerReviewResponse!
+  deleteSellerReview(reviewId: Float!): SellerReviewResponse!
 }
 
 input SignUpInput {
@@ -529,6 +664,15 @@ input UpdateSellerProfileInput {
   payout_details: JSON
 }
 
+input PaymentMethodInput {
+  method_name: String!
+}
+
+input PaymentMethodUpdateInput {
+  method_id: ID!
+  method_name: String!
+}
+
 input CreateAdminInput {
   name: String!
   email: String!
@@ -551,4 +695,54 @@ input AddToCartInput {
 input UpdateCartItemInput {
   cart_item_id: ID!
   quantity: Int!
+}
+
+input ShippingAddressInput {
+  recipient_name: String!
+  street_address: String!
+  city: String!
+  state: String
+  postal_code: String!
+  country: String!
+  phone_number: String
+}
+
+input UpdateShippingAddressInput {
+  address_id: ID!
+  recipient_name: String
+  street_address: String
+  city: String
+  state: String
+  postal_code: String
+  country: String
+  phone_number: String
+}
+
+input CheckoutInput {
+  shipping_address_id: ID!
+  payment_method_id: ID!
+}
+
+input CreateReviewInput {
+  productId: ID!
+  rating: Int!
+  comment: String
+}
+
+input UpdateReviewInput {
+  reviewId: ID!
+  rating: Int!
+  comment: String
+}
+
+input CreateSellerReviewInput {
+  sellerId: ID!
+  rating: Int!
+  comment: String
+}
+
+input UpdateSellerReviewInput {
+  reviewId: ID!
+  rating: Int!
+  comment: String
 }

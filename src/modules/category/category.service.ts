@@ -6,8 +6,7 @@ import {
   CategoryInput,
   UpdateCategoryInput,
   DeleteCategoryInput,
-  CreateCategoryResponse,
-  UpdateCategoryResponse,
+  CategoryResponse,
   DeleteCategoryResponse,
 } from '../../graphql/types/category.types';
 
@@ -28,7 +27,7 @@ export class CategoryService {
     }
   }
 
-  async createCategory(input: CategoryInput): Promise<CreateCategoryResponse> {
+  async createCategory(input: CategoryInput): Promise<CategoryResponse> {
     try {
       const newCategory = await this.categoryModel.create({
         category_name: input.category_name,
@@ -53,7 +52,7 @@ export class CategoryService {
 
   async editCategory(
     input: UpdateCategoryInput,
-  ): Promise<UpdateCategoryResponse> {
+  ): Promise<CategoryResponse> {
     try {
       const category = await this.categoryModel.findByPk(input.category_id);
 
