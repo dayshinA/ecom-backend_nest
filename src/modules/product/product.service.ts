@@ -91,6 +91,57 @@ export class ProductService {
     }
   }
 
+  // get 1 product
+  async getProduct(product_id: number): Promise<ProductType> {
+    try {
+      const product = await this.productModel.findByPk(product_id, {
+        include: [
+          {
+            model: ProductVariation,
+            as: 'variations',
+          },
+          {
+            model: SellerProfile,
+            as: 'seller',
+            include: [
+              {
+                model: User,
+                as: 'user',
+                attributes: ['name'],
+              },
+            ],
+          },
+          {
+            model: Category,
+            as: 'category',
+            attributes: ['category_name'],
+          },
+          {
+            model: Brand,
+            as: 'brand',
+            attributes: ['brand_name'],
+          },
+        ],
+      });
+
+      if (!product) {
+        throw new NotFoundException('Product not found');
+      }
+
+      const plainProduct = product.get({ plain: true });
+      return {
+        ...plainProduct,
+        seller_name: plainProduct.seller?.user?.name || null,
+        store_name: plainProduct.seller?.store_name || null,
+        category_name: plainProduct.category?.category_name || null,
+        brand_name: plainProduct.brand?.brand_name || null,
+      } as ProductType;
+    } catch (error) {
+      console.error('Error fetching product:', error);
+      throw new BadRequestException('Failed to fetch product');
+    }
+  }
+
   async getSellerInventory(seller_id: number): Promise<InventoryItemType[]> {
     try {
       const products = await this.productModel.findAll({

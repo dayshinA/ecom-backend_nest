@@ -95,6 +95,27 @@ export class ProductResolver {
     }
   }
 
+  @Query(() => ProductResponse)
+  async product(
+    @Args('product_id') product_id: number,
+  ): Promise<ProductResponse> {
+    try {
+      const product = await this.productService.getProduct(product_id);
+      return {
+        success: true,
+        message: 'Product fetched successfully',
+        product: product,
+      };
+    } catch (error) {
+      console.error('Error resolving product:', error);
+      return {
+        success: false,
+        message: error.message,
+        product: null,
+      };
+    }
+  }
+
   @Query(() => InventoryResponse)
   @UseGuards(AuthGuard)
   async sellerInventory(

@@ -469,6 +469,7 @@ type Query {
   categories: [CategoryType!]!
   brands: [BrandType!]!
   products: ProductsResponse!
+  product(product_id: Float!): ProductResponse!
   sellerInventory: InventoryResponse!
   sellerProfile: SellerProfileResponse!
   sellerOrders(limit: Float, offset: Float): UserOrdersResponse!
